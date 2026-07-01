@@ -381,7 +381,8 @@
 
   // ===== Telegram sozlamalari =====
   var TG_TOKEN = "8866727274:AAHQigOrHuuIFEDMdFOcaEI5SwzRfcExOVI";
-  var TG_CHAT_ID = "1378539669"; // admin
+  var TG_CHAT_ID = "-1002021783215"; // guruh
+  var TG_TOPIC_ID = "689"; // "MT shartnomalar" mavzusi
 
   function tgVal(id){ var el=document.getElementById(id); return el?el.value.trim():""; }
 
@@ -396,6 +397,19 @@
     signBtn.querySelector("[data-lat]").textContent="Yuborilmoqda...";
     signBtn.querySelector("[data-cyr]").textContent="Юборилмоқда...";
 
+    // To'ldirilgan barcha maydonlardan to'liq havola yasash
+    var allFields={
+      dognum:"f_dognum", date:"f_date", tarif:"f_tarif", price:"f_price", weeks:"f_weeks",
+      p1d:"p1d", p1s:"p1s", p2d:"p2d", p2s:"p2s", p3d:"p3d", p3s:"p3s", ptot:"ptot",
+      fio:"b_fio", id:"b_id", stir:"b_stir", phone:"b_phone", addr:"b_addr"
+    };
+    var qp=new URLSearchParams();
+    Object.keys(allFields).forEach(function(key){
+      var v=tgVal(allFields[key]); if(v) qp.set(key, v);
+    });
+    qp.set("lang", lat?"lat":"cyr");
+    var fullLink=location.origin+location.pathname+"?"+qp.toString();
+
     // 1) Matnli xabar
     var caption =
       "🖊 YANGI IMZOLANGAN OFERTA\n\n"+
@@ -409,6 +423,8 @@
       "Narx: "+(tgVal("f_price")||"—")+" so'm\n"+
       "Sana: "+now.toLocaleString("uz-UZ");
 
+    var linkText = "📄 To'liq imzolangan hujjat (ochib PDF saqlash mumkin):\n"+fullLink;
+
     // 2) Imzo rasmini blob'ga aylantirib, rasm sifatida yuborish
     function dataURLtoBlob(dataurl){
       var arr=dataurl.split(","), mime=arr[0].match(/:(.*?);/)[1],
@@ -419,6 +435,7 @@
 
     var fd=new FormData();
     fd.append("chat_id", TG_CHAT_ID);
+    if(TG_TOPIC_ID){ fd.append("message_thread_id", TG_TOPIC_ID); }
     fd.append("caption", caption);
     fd.append("photo", dataURLtoBlob(canvas.toDataURL("image/png")), "imzo.png");
 
@@ -428,6 +445,13 @@
         if(res && res.ok){
           signBtn.querySelector("[data-lat]").textContent="Imzolandi ✓";
           signBtn.querySelector("[data-cyr]").textContent="Имзоланди ✓";
+          // Rasm ketgach, to'liq havolani alohida xabar qilib yuboramiz
+          var fd2=new FormData();
+          fd2.append("chat_id", TG_CHAT_ID);
+          if(TG_TOPIC_ID){ fd2.append("message_thread_id", TG_TOPIC_ID); }
+          fd2.append("text", linkText);
+          fd2.append("disable_web_page_preview", "true");
+          fetch("https://api.telegram.org/bot"+TG_TOKEN+"/sendMessage", {method:"POST", body:fd2});
         } else {
           throw new Error("tg fail");
         }
