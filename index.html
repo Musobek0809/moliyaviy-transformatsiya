@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ommaviy oferta · Оммавий оферта — Malaka oshirish xizmati</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --paper:#ffffff; --bg:#f0ece3; --line:#d8d2c5;
+    --accent:#0f5d4a; --accent-soft:#e5efe9; --gold:#a98341; --muted:#6b6459;
+    --field:#fbf9f4; --field-focus:#fffdf6; --radius:4px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Times New Roman", Georgia, serif;line-height:1.6;font-size:16px;}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--accent);color:#fff;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:10px 20px;font-family:Arial, Helvetica, sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.15);flex-wrap:wrap;}
+  .topbar .brand{font-weight:700;letter-spacing:.5px;font-size:15px;}
+  .topbar .brand span{opacity:.7;font-weight:400;}
+  .topbar .actions{display:flex;gap:8px;align-items:center;}
+  .btn{font-family:Arial, Helvetica, sans-serif;border:none;border-radius:var(--radius);
+    padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;}
+  .btn-primary{background:var(--gold);color:#fff;}
+  .btn-primary:hover{background:#8f6d33;}
+  .btn-ghost{background:rgba(255,255,255,.15);color:#fff;}
+  .btn-ghost:hover{background:rgba(255,255,255,.28);}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .scriptsw{display:inline-flex;background:rgba(255,255,255,.15);border-radius:30px;padding:3px;font-size:13px;}
+  .scriptsw button{border:none;background:transparent;color:#fff;padding:6px 14px;border-radius:30px;cursor:pointer;font-family:Arial, Helvetica, sans-serif;font-weight:600;}
+  .scriptsw button.on{background:var(--gold);color:#fff;}
+  .sheet{max-width:820px;margin:26px auto;background:var(--paper);border:1px solid var(--line);
+    box-shadow:0 6px 28px rgba(40,35,25,.10);padding:54px 60px 46px;}
+  .doc-head{text-align:center;border-bottom:2px solid var(--accent);padding-bottom:18px;margin-bottom:26px;}
+  .doc-head .mark{font-family:Arial, Helvetica, sans-serif;color:var(--gold);font-weight:700;letter-spacing:3px;font-size:13px;text-transform:uppercase;}
+  .doc-head h1{font-size:22px;margin:14px 0 6px;line-height:1.3;text-transform:uppercase;letter-spacing:.4px;}
+  .doc-head .sub{font-size:14.5px;color:var(--muted);font-style:italic;}
+  .doc-head .num{font-family:Arial, Helvetica, sans-serif;font-size:14px;margin-top:10px;color:var(--ink);}
+  .meta-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-family:Arial, Helvetica, sans-serif;font-size:13px;color:var(--muted);margin-bottom:24px;}
+  .meta-row .city{font-weight:600;color:var(--ink);}
+  .preamble{background:var(--accent-soft);border-left:3px solid var(--accent);padding:16px 20px;margin-bottom:28px;border-radius:0 var(--radius) var(--radius) 0;font-size:15px;}
+  h2{font-family:Arial, Helvetica, sans-serif;font-size:16px;text-transform:uppercase;letter-spacing:.6px;
+    border-bottom:1px solid var(--line);padding-bottom:6px;margin:34px 0 14px;color:var(--accent);}
+  h3{font-family:Arial, Helvetica, sans-serif;font-size:14.5px;margin:20px 0 8px;color:var(--ink);}
+  p{margin:0 0 12px;text-align:justify;}
+  .clause{margin:0 0 11px;}
+  .clause b{color:var(--ink);}
+  ul.terms{list-style:none;padding:0;margin:0 0 14px;}
+  ul.terms li{position:relative;padding:5px 0 5px 22px;border-bottom:1px dashed var(--line);}
+  ul.terms li:last-child{border-bottom:none;}
+  ul.terms li::before{content:"—";position:absolute;left:0;color:var(--accent);font-weight:700;}
+  .fld{display:inline-block;border:none;border-bottom:1.5px solid var(--gold);background:var(--field);
+    font-family:Arial, Helvetica, sans-serif;font-size:14px;padding:3px 8px;min-width:140px;color:var(--ink);
+    border-radius:3px 3px 0 0;transition:.15s;}
+  .fld:focus{outline:none;background:var(--field-focus);border-bottom-color:var(--accent);box-shadow:0 2px 0 -1px var(--accent);}
+  .fld.wide{min-width:260px;}
+  .fld.full{display:block;width:100%;margin-top:4px;}
+  .fld::placeholder{color:#b3ab9c;font-style:italic;}
+  .price-line{background:#fff8ec;border:1px dashed var(--gold);padding:12px 16px;border-radius:var(--radius);margin:10px 0;}
+  table.pay{width:100%;border-collapse:collapse;margin:14px 0;font-family:Arial, Helvetica, sans-serif;font-size:13.5px;}
+  table.pay th,table.pay td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  table.pay th{background:var(--accent);color:#fff;}
+  table.pay td .fld{min-width:90px;text-align:center;}
+  .appendix{margin-top:8px;border-top:3px double var(--accent);padding-top:26px;}
+  .appendix .tag{font-family:Arial, Helvetica, sans-serif;font-style:italic;color:var(--gold);font-weight:700;font-size:13px;letter-spacing:1px;}
+  .sign-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:30px;}
+  .sign-col{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:#faf8f3;}
+  .sign-col h4{font-family:Arial, Helvetica, sans-serif;margin:0 0 12px;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;}
+  .sign-col .row{font-size:13px;font-family:Arial, Helvetica, sans-serif;margin:5px 0;}
+  .sign-col .row span{color:var(--muted);}
+  .seal-fixed{font-family:Arial, Helvetica, sans-serif;font-size:13px;color:var(--ink);}
+  .seal-fixed b{display:block;margin-top:8px;}
+  .sigpad-wrap{margin-top:14px;}
+  .sigpad-label{font-family:Arial, Helvetica, sans-serif;font-size:12px;color:var(--muted);margin-bottom:4px;}
+  canvas.sigpad{width:100%;height:120px;background:#fff;border:1px solid var(--gold);border-radius:var(--radius);touch-action:none;cursor:crosshair;display:block;}
+  .sig-tools{display:flex;gap:8px;margin-top:6px;}
+  .sig-tools button{font-family:Arial, Helvetica, sans-serif;font-size:12px;padding:4px 10px;border:1px solid var(--line);background:#fff;border-radius:3px;cursor:pointer;}
+  .sig-tools button:hover{background:var(--accent-soft);}
+  .consent{display:flex;align-items:flex-start;gap:10px;background:var(--accent-soft);border-radius:var(--radius);padding:14px 16px;margin:26px 0 18px;font-family:Arial, Helvetica, sans-serif;font-size:14px;}
+  .consent input{margin-top:3px;width:18px;height:18px;accent-color:var(--accent);}
+  .stamp{display:none;text-align:center;margin:24px 0;font-family:Arial, Helvetica, sans-serif;}
+  .stamp.show{display:block;}
+  .stamp .badge{display:inline-block;border:2px solid var(--accent);color:var(--accent);border-radius:8px;padding:12px 22px;font-weight:700;letter-spacing:1px;transform:rotate(-3deg);}
+  .stamp .meta{font-size:12px;color:var(--muted);margin-top:8px;font-style:italic;}
+  .footnote{font-size:12px;color:var(--muted);font-style:italic;text-align:center;margin-top:30px;border-top:1px solid var(--line);padding-top:14px;font-family:Arial, Helvetica, sans-serif;}
+  [data-lat],[data-cyr]{display:none;}
+  body.lat [data-lat]{display:initial;}
+  body.cyr [data-cyr]{display:initial;}
+  body.lat h1[data-lat],body.cyr h1[data-cyr]{display:block;}
+  @media (max-width:680px){
+    .sheet{padding:30px 20px;margin:12px;}
+    .sign-wrap{grid-template-columns:1fr;}
+    .doc-head h1{font-size:18px;}
+    .topbar .brand span{display:none;}
+  }
+  @media print{
+    .topbar,.consent,.sig-tools,.btn{display:none!important;}
+    body{background:#fff;}
+    .sheet{box-shadow:none;border:none;margin:0;max-width:100%;}
+    .fld{border-bottom:1px solid #000;background:transparent;}
+  }
+</style>
+</head>
+<body class="lat">
+
+<div class="topbar">
+  <div class="brand">WEALTHMANAGEMENT MCHJ <span>· Moliyaviy Erkinlik</span></div>
+  <div class="actions">
+    <div class="scriptsw">
+      <button id="swLat" class="on">Lotin</button>
+      <button id="swCyr">Кирил</button>
+    </div>
+    <button class="btn btn-ghost" id="copyBtn"><span data-lat>Havolani nusxalash</span><span data-cyr>Ҳаволани нусхалаш</span></button>
+    <button class="btn btn-ghost" id="printBtn"><span data-lat>Chop etish</span><span data-cyr>Чоп этиш</span></button>
+    <button class="btn btn-primary" id="signBtn" disabled><span data-lat>Imzolash</span><span data-cyr>Имзолаш</span></button>
+  </div>
+</div>
+
+<div class="sheet" id="sheet">
+
+  <div class="doc-head">
+    <div class="mark"><span data-lat>Ommaviy oferta</span><span data-cyr>Оммавий оферта</span></div>
+    <h1 data-lat>Moliya va biznes sohasida malaka oshirish (o'qitish) xizmatini ko'rsatish shartnomasi</h1>
+    <h1 data-cyr>Молия ва бизнес соҳасида малака ошириш (ўқитиш) хизматини кўрсатиш шартномаси</h1>
+    <div class="sub"><span data-lat>Ushbu hujjat O'zbekiston Respublikasi Fuqarolik kodeksining 367–369-moddalariga muvofiq ommaviy oferta hisoblanadi</span><span data-cyr>Ушбу ҳужжат Ўзбекистон Республикаси Фуқаролик кодексининг 367–369-моддаларига мувофиқ оммавий оферта ҳисобланади</span></div>
+    <div class="num">Shartnoma № WM-<input class="fld" id="f_dognum" placeholder="___" style="min-width:60px"></div>
+  </div>
+
+  <div class="meta-row">
+    <div class="city"><span data-lat>Toshkent shahri</span><span data-cyr>Тошкент шаҳри</span></div>
+    <div><span data-lat>Sana:</span><span data-cyr>Сана:</span> <input class="fld" id="f_date" type="date"></div>
+  </div>
+
+  <div class="preamble">
+    <span data-lat>Nizomga asosan harakat qiluvchi direktor <b>Zokirov Shuhrat Zokirovich</b> tomonidan boshqariladigan <b>"WEALTHMANAGEMENT" MChJ</b> (bundan buyon — <b>"Ijrochi"</b>) bir tomondan, va ushbu ofertani quyida belgilangan tartibda qabul qilgan (akseptlagan) jismoniy shaxs (bundan buyon — <b>"Buyurtmachi"</b>) ikkinchi tomondan, ushbu shartnomani quyidagi shartlar asosida tuzdilar. Ofertani aksept qilish — Buyurtmachi tomonidan o'z ma'lumotlarini kiritib, elektron imzo qo'yilishi va/yoki belgilangan to'lovni amalga oshirilishi orqali yuzaga keladi.</span>
+    <span data-cyr>Низомга асосан ҳаракат қилувчи директор <b>Зокиров Шуҳрат Зокирович</b> томонидан бошқариладиган <b>"WEALTHMANAGEMENT" МЧЖ</b> (бундан буён — <b>"Ижрочи"</b>) бир томондан, ва ушбу офертани қуйида белгиланган тартибда қабул қилган (акцептлаган) жисмоний шахс (бундан буён — <b>"Буюртмачи"</b>) иккинчи томондан, ушбу шартномани қуйидаги шартлар асосида туздилар. Офертани акцепт қилиш — Буюртмачи томонидан ўз маълумотларини киритиб, электрон имзо қўйилиши ва/ёки белгиланган тўловни амалга оширилиши орқали юзага келади.</span>
+  </div>
+
+  <h2><span data-lat>1. Shartnoma predmeti</span><span data-cyr>1. Шартнома предмети</span></h2>
+  <p class="clause"><span data-lat>1.1. "Ijrochi" "Buyurtmachi"ga moliya va biznes sohasida o'qitish, professional amaliy malaka oshirish xizmatini (matnda — <b>"Malaka oshirish xizmati"</b>) ko'rsatish majburiyatini, "Buyurtmachi" esa ko'rsatiladigan xizmat haqini shartnoma shartlari asosida to'lash hamda o'quv mashg'ulotlariga uzluksiz qatnashish va berilgan vazifalarni bajarish majburiyatini o'z zimmasiga oladi.</span><span data-cyr>1.1. "Ижрочи" "Буюртмачи"га молия ва бизнес соҳасида ўқитиш, профессионал амалий малака ошириш хизматини (матнда — <b>"Малака ошириш хизмати"</b>) кўрсатиш мажбуриятини, "Буюртмачи" эса кўрсатиладиган хизмат ҳақини шартнома шартлари асосида тўлаш ҳамда ўқув машғулотларига узлуксиз қатнашиш ва берилган вазифаларни бажариш мажбуриятини ўз зиммасига олади.</span></p>
+  <h3><span data-lat>1.2. "Malaka oshirish xizmati" shartlari:</span><span data-cyr>1.2. "Малака ошириш хизмати" шартлари:</span></h3>
+  <p class="clause"><span data-lat>1.2.1. "Moliya va Biznesni rivojlantirish" mavzusidagi <input class="fld" id="f_weeks" placeholder="14" style="min-width:50px"> haftalik individual o'quv kursdan iborat.</span><span data-cyr>1.2.1. "Молия ва Бизнесни ривожлантириш" мавзусидаги <input class="fld" id="f_weeks2" placeholder="14" style="min-width:50px"> ҳафталик индивидуал ўқув курсдан иборат.</span></p>
+  <p class="clause"><span data-lat>1.2.2. O'quv mashg'ulotlari Toshkent shahrida o'tkaziladi; "Ijrochi" o'z ixtiyoriga ko'ra kursning bir qismini boshqa manzilda o'tkazishi mumkin.</span><span data-cyr>1.2.2. Ўқув машғулотлари Тошкент шаҳрида ўтказилади; "Ижрочи" ўз ихтиёрига кўра курснинг бир қисмини бошқа манзилда ўтказиши мумкин.</span></p>
+  <p class="clause"><span data-lat>1.2.3. Mashg'ulotlar "Ijrochi" belgilagan reja asosida haftasiga bir marta (har bir dars taxminan 5 soat) o'tkaziladi.</span><span data-cyr>1.2.3. Машғулотлар "Ижрочи" белгилаган режа асосида ҳафтасига бир марта (ҳар бир дарс тахминан 5 соат) ўтказилади.</span></p>
+  <p class="clause"><span data-lat>1.2.4. "Ijrochi" har oyda 1 marta oflayn va 1 marta onlayn bepul konsultatsiya beradi.</span><span data-cyr>1.2.4. "Ижрочи" ҳар ойда 1 марта офлайн ва 1 марта онлайн бепул консультация беради.</span></p>
+  <p class="clause"><span data-lat>1.2.5. Malaka oshirish muddati — taxminan 4 (to'rt) oy, jami 14 ta mashg'ulotni o'z ichiga oladi.</span><span data-cyr>1.2.5. Малака ошириш муддати — тахминан 4 (тўрт) ой, жами 14 та машғулотни ўз ичига олади.</span></p>
+  <p class="clause"><span data-lat>1.2.6. Tomonlar o'zaro kelishuv asosida: "Ijrochi" o'qitadi, "Buyurtmachi" esa 2.1-bandda nazarda tutilgan summani to'laydi va mashg'ulotlarga o'z vaqtida qatnashadi.</span><span data-cyr>1.2.6. Томонлар ўзаро келишув асосида: "Ижрочи" ўқитади, "Буюртмачи" эса 2.1-бандда назарда тутилган суммани тўлайди ва машғулотларга ўз вақтида қатнашади.</span></p>
+
+  <h2><span data-lat>2. Xizmat narxi va hisob-kitob tartibi</span><span data-cyr>2. Хизмат нархи ва ҳисоб-китоб тартиби</span></h2>
+  <div class="price-line">
+    <p class="clause" style="margin:0">
+      <span data-lat>2.1. Ushbu shartnoma bo'yicha tanlangan tarif: <input class="fld" id="f_tarif" placeholder="tarif nomi" style="min-width:130px">, xizmat narxi: <input class="fld" id="f_price" placeholder="summa kiritiladi" style="min-width:180px"> so'm.</span>
+      <span data-cyr>2.1. Ушбу шартнома бўйича танланган тариф: <input class="fld" id="f_tarif2" placeholder="тариф номи" style="min-width:130px">, хизмат нархи: <input class="fld" id="f_price2" placeholder="сумма киритилади" style="min-width:180px"> сўм.</span>
+    </p>
+  </div>
+  <p class="clause"><span data-lat>2.2. <b>To'lov usuli:</b> bank o'tkazmasi, naqd pul, yoki to'lov tizimlari (Click, Payme, Uzum va boshqalar) orqali amalga oshiriladi.</span><span data-cyr>2.2. <b>Тўлов усули:</b> банк ўтказмаси, нақд пул, ёки тўлов тизимлари (Click, Payme, Uzum ва бошқалар) орқали амалга оширилади.</span></p>
+  <p class="clause"><span data-lat>2.3. Shartnoma imzolangan paytda "Buyurtmachi" tomonidan jami xizmat narxining kamida 30% miqdorida to'lov amalga oshirilishi lozim. Qoldiq summa ushbu shartnomaning ajralmas qismi — 1-ilovadagi to'lov grafigiga muvofiq to'lanadi. Muddatli to'lov o'z vaqtida amalga oshirilmasa, shartnoma bekor qilinishi va to'langan mablag' qaytarilmasligi mumkin.</span><span data-cyr>2.3. Шартнома имзоланган пайтда "Буюртмачи" томонидан жами хизмат нархининг камида 30% миқдорида тўлов амалга оширилиши лозим. Қолдиқ сумма ушбу шартноманинг ажралмас қисми — 1-иловадаги тўлов графигига мувофиқ тўланади. Муддатли тўлов ўз вақтида амалга оширилмаса, шартнома бекор қилиниши ва тўланган маблағ қайтарилмаслиги мумкин.</span></p>
+  <p class="clause"><span data-lat>2.3.1. Har bir to'lov tomonlar tomonidan to'lov kvitansiyasi orqali tasdiqlanadi.</span><span data-cyr>2.3.1. Ҳар бир тўлов томонлар томонидан тўлов квитанцияси орқали тасдиқланади.</span></p>
+  <h3><span data-lat>2.4. Tarifga kiruvchi bazaviy xizmatlar:</span><span data-cyr>2.4. Тарифга кирувчи базавий хизматлар:</span></h3>
+  <ul class="terms">
+    <li><span data-lat>Kursda to'liq jonli ravishda ishtirok etish.</span><span data-cyr>Курсда тўлиқ жонли равишда иштирок этиш.</span></li>
+    <li><span data-lat>Mashg'ulotdan tashqari spiker/trener bilan jami 2 soatgacha jonli va 2 soat onlayn yakka maslahat (kurs boshlanganidan keyin 4 oy davomida).</span><span data-cyr>Машғулотдан ташқари спикер/тренер билан жами 2 соатгача жонли ва 2 соат онлайн якка маслаҳат (курс бошланганидан кейин 4 ой давомида).</span></li>
+    <li><span data-lat>Kursni yakunlagan kundan boshlab 1 yil davomida "Ijrochi" tashkil qiladigan 1 kunlik trening yoki seminarlardan birida jonli ishtirok etish.</span><span data-cyr>Курсни якунлаган кундан бошлаб 1 йил давомида "Ижрочи" ташкил қиладиган 1 кунлик тренинг ёки семинарлардан бирида жонли иштирок этиш.</span></li>
+  </ul>
+  <p class="clause"><span data-lat>2.5. "Ijrochi" qo'shimcha shartlarni bajargani evaziga (vaucher ko'rinishida) bonuslardan foydalanishni taklif etishi mumkin.</span><span data-cyr>2.5. "Ижрочи" қўшимча шартларни бажаргани эвазига (ваучер кўринишида) бонуслардан фойдаланишни таклиф этиши мумкин.</span></p>
+  <p class="clause"><span data-lat>2.6. Ko'rsatilgan xizmat tomonlar o'rtasida imzolanadigan topshirish-qabul qilish dalolatnomasi bilan rasmiylashtiriladi.</span><span data-cyr>2.6. Кўрсатилган хизмат томонлар ўртасида имзоланадиган топшириш-қабул қилиш далолатномаси билан расмийлаштирилади.</span></p>
+  <p class="clause"><span data-lat>2.7. "Buyurtmachi" asossiz ravishda mashg'ulotni qoldirsa yoki qatnashmasa, to'langan summa qaytarilmasligiga sabab bo'ladi.</span><span data-cyr>2.7. "Буюртмачи" асоссиз равишда машғулотни қолдирса ёки қатнашмаса, тўланган сумма қайтарилмаслигига сабаб бўлади.</span></p>
+  <p class="clause"><span data-lat>2.8. Xizmat haqi faqat tomonlarning o'zaro yozma roziligi bilan o'zgartirilishi mumkin.</span><span data-cyr>2.8. Хизмат ҳақи фақат томонларнинг ўзаро ёзма розилиги билан ўзгартирилиши мумкин.</span></p>
+
+  <h2><span data-lat>3. Tomonlarning huquq va majburiyatlari</span><span data-cyr>3. Томонларнинг ҳуқуқ ва мажбуриятлари</span></h2>
+  <h3><span data-lat>3.1. "Buyurtmachi"ning majburiyatlari:</span><span data-cyr>3.1. "Буюртмачи"нинг мажбуриятлари:</span></h3>
+  <ul class="terms">
+    <li><span data-lat>Shartnoma shartlarini to'liq bajarish va xizmat haqini o'z vaqtida to'lash.</span><span data-cyr>Шартнома шартларини тўлиқ бажариш ва хизмат ҳақини ўз вақтида тўлаш.</span></li>
+    <li><span data-lat>Xizmat natijasi bo'yicha dalolatnoma va hisob-fakturani imzolash.</span><span data-cyr>Хизмат натижаси бўйича далолатнома ва ҳисоб-фактурани имзолаш.</span></li>
+    <li><span data-lat>Mashg'ulotlarga kech qolmasdan doimiy qatnashish.</span><span data-cyr>Машғулотларга кеч қолмасдан доимий қатнашиш.</span></li>
+    <li><span data-lat>"Ijrochi" taqdim qilgan materiallarni tarqatmaslik, ulashmaslik, sotmaslik (ЎРҚ-374 "Tijorat siri" va ЎРҚ-42 "Mualliflik huquqi" qonunlari asosida javobgarlik).</span><span data-cyr>"Ижрочи" тақдим қилган материалларни тарқатмаслик, улашмаслик, сотмаслик (ЎРҚ-374 "Тижорат сири" ва ЎРҚ-42 "Муаллифлик ҳуқуқи" қонунлари асосида жавобгарлик).</span></li>
+    <li><span data-lat>Mashg'ulot jarayonini "Ijrochi"dan yashirin yoki oshkora yozib olmaslik va tarqatmaslik.</span><span data-cyr>Машғулот жараёнини "Ижрочи"дан яширин ёки ошкора ёзиб олмаслик ва тарқатмаслик.</span></li>
+    <li><span data-lat>"Ijrochi" jamoasi bilan o'zaro hurmat munosabatida bo'lish.</span><span data-cyr>"Ижрочи" жамоаси билан ўзаро ҳурмат муносабатида бўлиш.</span></li>
+  </ul>
+  <h3><span data-lat>3.2. "Buyurtmachi"ning huquqlari:</span><span data-cyr>3.2. "Буюртмачи"нинг ҳуқуқлари:</span></h3>
+  <ul class="terms">
+    <li><span data-lat>"Ijrochi" shartlarni buzgan va xizmat ko'rsatilmagan taqdirda, shartnomani bir tomonlama bekor qilish va to'langan mablag'ni qaytarishni talab qilish.</span><span data-cyr>"Ижрочи" шартларни бузган ва хизмат кўрсатилмаган тақдирда, шартномани бир томонлама бекор қилиш ва тўланган маблағни қайтаришни талаб қилиш.</span></li>
+    <li><span data-lat>Barcha shartlarni bajargach, taqdim etilgan imtiyozlardan foydalanish.</span><span data-cyr>Барча шартларни бажаргач, тақдим этилган имтиёзлардан фойдаланиш.</span></li>
+    <li><span data-lat>"Ijrochi" taqdim etadigan barcha o'quv materiallarini qayta o'rganish.</span><span data-cyr>"Ижрочи" тақдим этадиган барча ўқув материалларини қайта ўрганиш.</span></li>
+  </ul>
+  <h3><span data-lat>3.3. "Ijrochi"ning majburiyatlari:</span><span data-cyr>3.3. "Ижрочи"нинг мажбуриятлари:</span></h3>
+  <ul class="terms">
+    <li><span data-lat>Shartnoma shartlarini to'liq va xizmatni o'z vaqtida sifatli bajarish.</span><span data-cyr>Шартнома шартларини тўлиқ ва хизматни ўз вақтида сифатли бажариш.</span></li>
+    <li><span data-lat>Yangi o'quv texnologiyalarini qo'llash.</span><span data-cyr>Янги ўқув технологияларини қўллаш.</span></li>
+    <li><span data-lat>Xizmat ko'rsatish imkoni bo'lmasa, "Buyurtmachi"ni og'zaki/yozma/elektron tarzda oldindan ogohlantirish.</span><span data-cyr>Хизмат кўрсатиш имкони бўлмаса, "Буюртмачи"ни оғзаки/ёзма/электрон тарзда олдиндан огоҳлантириш.</span></li>
+  </ul>
+  <h3><span data-lat>3.4. "Ijrochi"ning huquqlari:</span><span data-cyr>3.4. "Ижрочи"нинг ҳуқуқлари:</span></h3>
+  <ul class="terms">
+    <li><span data-lat>Mashg'ulotlarga muntazam qatnashishni talab qilish.</span><span data-cyr>Машғулотларга мунтазам қатнашишни талаб қилиш.</span></li>
+    <li><span data-lat>2 marta uzrli sabab bilan ogohlantirishsiz kech qolinsa, shartnomani bir tomonlama bekor qilish (to'lov qaytarilmaydi).</span><span data-cyr>2 марта узрли сабаб билан огоҳлантиришсиз кеч қолинса, шартномани бир томонлама бекор қилиш (тўлов қайтарилмайди).</span></li>
+    <li><span data-lat>Uzrsiz qatnashmagan tinglovchiga sertifikat bermaslik.</span><span data-cyr>Узрсиз қатнашмаган тингловчига сертификат бермаслик.</span></li>
+    <li><span data-lat>To'lov amalga oshirilmasa, kursga kiritmaslik.</span><span data-cyr>Тўлов амалга оширилмаса, курсга киритмаслик.</span></li>
+    <li><span data-lat>Zaruriyatga ko'ra dastur, reja va muddatga o'zgartirish kiritish (oldindan ogohlantirib).</span><span data-cyr>Заруриятга кўра дастур, режа ва муддатга ўзгартириш киритиш (олдиндан огоҳлантириб).</span></li>
+  </ul>
+
+  <h2><span data-lat>4. Tomonlarning javobgarligi va fors-major holatlar</span><span data-cyr>4. Томонларнинг жавобгарлиги ва форс-мажор ҳолатлар</span></h2>
+  <p class="clause"><span data-lat>4.1. Tomonlar majburiyatlarni bajarmaganlik uchun O'zbekiston Respublikasi qonun hujjatlariga muvofiq javobgar bo'ladilar.</span><span data-cyr>4.1. Томонлар мажбуриятларни бажармаганлик учун Ўзбекистон Республикаси қонун ҳужжатларига мувофиқ жавобгар бўладилар.</span></p>
+  <p class="clause"><span data-lat>4.2. Aybdor tomon yetkazilgan haqiqiy zararni qoplaydi.</span><span data-cyr>4.2. Айбдор томон етказилган ҳақиқий зарарни қоплайди.</span></p>
+  <p class="clause"><span data-lat>4.3. "Buyurtmachi" o'z ixtiyori bilan mashg'ulotga kelmasa, xizmat ko'rsatilgan hisoblanadi, chunki "Ijrochi" vaqt ajratib, tayyorgarlik ko'rgan bo'ladi.</span><span data-cyr>4.3. "Буюртмачи" ўз ихтиёри билан машғулотга келмаса, хизмат кўрсатилган ҳисобланади, чунки "Ижрочи" вақт ажратиб, тайёргарлик кўрган бўлади.</span></p>
+  <p class="clause"><span data-lat>4.4. Yengib bo'lmas kuch (fors-major) va pandemiya holatlarida tomonlar javobgarlikdan ozod qilinadi. Ta'sirga uchragan tomon 5 kun ichida yozma xabardor qilishi shart; holat 1 oydan ortiq davom etsa, har qaysi tomon shartnomani bekor qilishni talab qilishi mumkin. Fors-major vakolatli davlat organi hujjati bilan tasdiqlanadi.</span><span data-cyr>4.4. Енгиб бўлмас куч (форс-мажор) ва пандемия ҳолатларида томонлар жавобгарликдан озод қилинади. Таъсирга учраган томон 5 кун ичида ёзма хабардор қилиши шарт; ҳолат 1 ойдан ортиқ давом этса, ҳар қайси томон шартномани бекор қилишни талаб қилиши мумкин. Форс-мажор ваколатли давлат органи ҳужжати билан тасдиқланади.</span></p>
+
+  <h2><span data-lat>5. Nizolarni hal etish tartibi</span><span data-cyr>5. Низоларни ҳал этиш тартиби</span></h2>
+  <p class="clause"><span data-lat>5.1. Nizolar avval o'zaro muzokara yo'li bilan hal etiladi.</span><span data-cyr>5.1. Низолар аввал ўзаро музокара йўли билан ҳал этилади.</span></p>
+  <p class="clause"><span data-lat>5.2. Kelishuvga erishilmasa, javobgar istiqomat qiladigan manzildagi Fuqarolik yoki Iqtisodiy sudda hal qilinadi.</span><span data-cyr>5.2. Келишувга эришилмаса, жавобгар истиқомат қиладиган манзилдаги Фуқаролик ёки Иқтисодий судда ҳал қилинади.</span></p>
+
+  <h2><span data-lat>6. Boshqa shartlar</span><span data-cyr>6. Бошқа шартлар</span></h2>
+  <p class="clause"><span data-lat>6.1. "Buyurtmachi" kursga kelmasa yoki qisman qatnashsa, to'langan xizmat haqi qaytarilmaydi. Kursni 1 yilga to'xtatib turish (akademik ta'til) imkoni mavjud.</span><span data-cyr>6.1. "Буюртмачи" курсга келмаса ёки қисман қатнашса, тўланган хизмат ҳақи қайтарилмайди. Курсни 1 йилга тўхтатиб туриш (академик таътил) имкони мавжуд.</span></p>
+  <p class="clause"><span data-lat>6.2. Shartlar bajarilmasa, "Ijrochi" to'langan mablag'ni qaytarmagan holda kursdan chiqarib yuborish huquqiga ega.</span><span data-cyr>6.2. Шартлар бажарилмаса, "Ижрочи" тўланган маблағни қайтармаган ҳолда курсдан чиқариб юбориш ҳуқуқига эга.</span></p>
+  <p class="clause"><span data-lat>6.3. "Ijrochi"ning mol-mulkiga zarar yetkazilsa, "Buyurtmachi" to'liq qoplab beradi.</span><span data-cyr>6.3. "Ижрочи"нинг мол-мулкига зарар етказилса, "Буюртмачи" тўлиқ қоплаб беради.</span></p>
+
+  <h2><span data-lat>7. Yakuniy qoidalar</span><span data-cyr>7. Якуний қоидалар</span></h2>
+  <p class="clause"><span data-lat>7.1. Shartnoma tomonlar imzolagan (aksept qilingan) paytdan kuchga kiradi va majburiyatlar to'liq bajarilgunga qadar amal qiladi.</span><span data-cyr>7.1. Шартнома томонлар имзолаган (акцепт қилинган) пайтдан кучга киради ва мажбуриятлар тўлиқ бажарилгунга қадар амал қилади.</span></p>
+  <p class="clause"><span data-lat>7.2. Barcha o'zgartirishlar tomonlarning yozma roziligi bilan amalga oshiriladi.</span><span data-cyr>7.2. Барча ўзгартиришлар томонларнинг ёзма розилиги билан амалга оширилади.</span></p>
+  <p class="clause"><span data-lat>7.3. Tomonlardan biri shartni buzsa, ikkinchi tomon shartni bajarishga majbur emas.</span><span data-cyr>7.3. Томонлардан бири шартни бузса, иккинчи томон шартни бажаришга мажбур эмас.</span></p>
+  <p class="clause"><span data-lat>7.4. Tomonlar har bir bandni to'liq o'rganib chiqqanliklarini tasdiqlaydilar.</span><span data-cyr>7.4. Томонлар ҳар бир бандни тўлиқ ўрганиб чиққанликларини тасдиқлайдилар.</span></p>
+  <p class="clause"><span data-lat>7.5. Barcha ilovalar shartnomaning ajralmas qismi hisoblanadi.</span><span data-cyr>7.5. Барча иловалар шартноманинг ажралмас қисми ҳисобланади.</span></p>
+  <p class="clause"><span data-lat>7.6. Maxfiy ma'lumotni oshkor qilmaslik (№547 "Shaxsga doir ma'lumotlar", ЎРҚ-374, ЎРҚ-42 qonunlari) majburiyati tomonlar zimmasiga yuklatiladi.</span><span data-cyr>7.6. Махфий маълумотни ошкор қилмаслик (№547 "Шахсга доир маълумотлар", ЎРҚ-374, ЎРҚ-42 қонунлари) мажбурияти томонлар зиммасига юклатилади.</span></p>
+  <p class="clause"><span data-lat>7.7. Ushbu shartnoma elektron shaklda tuzilgan bo'lib, tomonlarning elektron imzolari/akseptlari bilan bir xil yuridik kuchga ega.</span><span data-cyr>7.7. Ушбу шартнома электрон шаклда тузилган бўлиб, томонларнинг электрон имзолари/акцептлари билан бир хил юридик кучга эга.</span></p>
+
+  <div class="appendix">
+    <div class="tag"><span data-lat>Ilova №1 — To'lovlarni bo'lib to'lash grafigi</span><span data-cyr>Илова №1 — Тўловларни бўлиб тўлаш графиги</span></div>
+    <table class="pay">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th><span data-lat>To'lov muddati</span><span data-cyr>Тўлов муддати</span></th>
+          <th><span data-lat>To'lov summasi</span><span data-cyr>Тўлов суммаси</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><input class="fld" id="p1d" placeholder="sana / сана"></td><td><input class="fld" id="p1s" placeholder="summa"> <span data-lat>so'm (avans)</span><span data-cyr>сўм (аванс)</span></td></tr>
+        <tr><td>2</td><td><input class="fld" id="p2d" placeholder="sana / сана"></td><td><input class="fld" id="p2s" placeholder="summa"> <span data-lat>so'm</span><span data-cyr>сўм</span></td></tr>
+        <tr><td>3</td><td><input class="fld" id="p3d" placeholder="sana / сана"></td><td><input class="fld" id="p3s" placeholder="summa"> <span data-lat>so'm</span><span data-cyr>сўм</span></td></tr>
+        <tr><td colspan="2" style="text-align:right;font-weight:700"><span data-lat>Jami</span><span data-cyr>Жами</span></td><td><input class="fld" id="ptot" placeholder="jami"> <span data-lat>so'm</span><span data-cyr>сўм</span></td></tr>
+      </tbody>
+    </table>
+    <p class="clause" style="font-size:14px"><span data-lat>Tomonlar kelishuviga asosan to'lovni qisman to'lash imkoni mavjud; xizmat ko'rsatish boshlanishidan oldin umumiy summaning kamida 30% to'lanishi lozim. Qolgan qism grafik bo'yicha har oy to'lanadi. To'lov o'z vaqtida to'lanmasa, "Ijrochi" shartnomani bir tomonlama bekor qilish huquqiga ega; bunda to'langan mablag' qaytarilmaydi.</span><span data-cyr>Томонлар келишувига асосан тўловни қисман тўлаш имкони мавжуд; хизмат кўрсатиш бошланишидан олдин умумий сумманинг камида 30% тўланиши лозим. Қолган қисм график бўйича ҳар ой тўланади. Тўлов ўз вақтида тўланмаса, "Ижрочи" шартномани бир томонлама бекор қилиш ҳуқуқига эга; бунда тўланган маблағ қайтарилмайди.</span></p>
+  </div>
+
+  <div class="appendix">
+    <div class="tag"><span data-lat>Ilova №2 — "Buyurtmachi"dan asosiy talab va majburiyatlar</span><span data-cyr>Илова №2 — "Буюртмачи"дан асосий талаб ва мажбуриятлар</span></div>
+    <ul class="terms">
+      <li><span data-lat>Barcha darslarga 100% qatnashish. Ketma-ket 2 marta (sababsiz) dars qoldirilsa, o'qishdan chetlatilishga sabab bo'ladi.</span><span data-cyr>Барча дарсларга 100% қатнашиш. Кетма-кет 2 марта (сабабсиз) дарс қолдирилса, ўқишдан четлатилишга сабаб бўлади.</span></li>
+      <li><span data-lat>Uy vazifalarini 100% bajarish.</span><span data-cyr>Уй вазифаларини 100% бажариш.</span></li>
+      <li><span data-lat>Darslar viloyat, dam olish zonalari yoki chet davlatda bo'lsa ham qatnashish zarur.</span><span data-cyr>Дарслар вилоят, дам олиш зоналари ёки чет давлатда бўлса ҳам қатнашиш зарур.</span></li>
+      <li><span data-lat>Darslarga sababsiz 2 marta kech qolmaslik — aks holda shartnoma bir tomonlama bekor qilinadi.</span><span data-cyr>Дарсларга сабабсиз 2 марта кеч қолмаслик — акс ҳолда шартнома бир томонлама бекор қилинади.</span></li>
+      <li><span data-lat>Yozma ariza bermasdan kursni to'xtatsa, to'langan summa qaytarilmaydi.</span><span data-cyr>Ёзма ариза бермасдан курсни тўхтатса, тўланган сумма қайтарилмайди.</span></li>
+      <li><span data-lat>Mashg'ulot davomida telefon o'chirilgan yoki "parvoz" rejimida bo'lishi lozim.</span><span data-cyr>Машғулот давомида телефон ўчирилган ёки "парвоз" режимида бўлиши лозим.</span></li>
+      <li><span data-lat>Darsda uxlab o'tirmaslik, charchagan holda kelmaslik.</span><span data-cyr>Дарсда ухлаб ўтирмаслик, чарчаган ҳолда келмаслик.</span></li>
+      <li><span data-lat>Darsni audio/video yozib olmaslik — aks holda jarima va shartnoma bekor qilinadi.</span><span data-cyr>Дарсни аудио/видео ёзиб олмаслик — акс ҳолда жарима ва шартнома бекор қилинади.</span></li>
+      <li><span data-lat>Yakuniy test yoki og'zaki imtihon topshirish; muvaffaqiyatli yakunlasa sertifikat beriladi.</span><span data-cyr>Якуний тест ёки оғзаки имтиҳон топшириш; муваффақиятли якунласа сертификат берилади.</span></li>
+      <li><span data-lat>Dars jarayonini ijtimoiy tarmoqda "history" ko'rinishida 1 minutdan oshmagan holda ulashish mumkin.</span><span data-cyr>Дарс жараёнини ижтимоий тармоқда "история" кўринишида 1 минутдан ошмаган ҳолда улашиш мумкин.</span></li>
+    </ul>
+  </div>
+
+  <h2><span data-lat>8. Tomonlarning rekvizitlari va imzolari</span><span data-cyr>8. Томонларнинг реквизитлари ва имзолари</span></h2>
+  <div class="sign-wrap">
+    <div class="sign-col">
+      <h4><span data-lat>Ijrochi</span><span data-cyr>Ижрочи</span></h4>
+      <div class="seal-fixed">
+        <b>"WEALTHMANAGEMENT" MChJ</b>
+        <span data-lat>Manzil: Toshkent sh., Yakkasaroy t., Shota Rustaveli ko'chasi, 19-uy</span><span data-cyr>Манзил: Тошкент ш., Яккасарой т., Шота Руставели кўчаси, 19-уй</span><br>
+        <span data-lat>Bank: AJ «HAYOT BANK»</span><span data-cyr>Банк: АЖ «HAYOT BANK»</span><br>
+        <span data-lat>h/r: 20208000405709339001</span><span data-cyr>ҳ/р: 20208000405709339001</span><br>
+        MFO: 01198 &nbsp;·&nbsp; INN: 310862402<br>
+        OKED: 70220<br>
+        <span data-lat>Telefon: (99890) 805-00-05</span><span data-cyr>Телефон: (99890) 805-00-05</span><br>
+        <b><span data-lat>Direktor: Zokirov Sh.Z. ____________</span><span data-cyr>Директор: Зокиров Ш.З. ____________</span></b>
+      </div>
+    </div>
+    <div class="sign-col">
+      <h4><span data-lat>Buyurtmachi</span><span data-cyr>Буюртмачи</span></h4>
+      <div class="row"><span data-lat>F.I.Sh.:</span><span data-cyr>Ф.И.Ш.:</span><br><input class="fld full" id="b_fio" placeholder="To'liq F.I.Sh. / Тўлиқ Ф.И.Ш."></div>
+      <div class="row"><span data-lat>ID / Passport:</span><span data-cyr>ID / Паспорт:</span><br><input class="fld full" id="b_id" placeholder="Seriya, raqam, berilgan joyi va vaqti"></div>
+      <div class="row"><span>STIR:</span> <input class="fld" id="b_stir" placeholder="—————"></div>
+      <div class="row"><span data-lat>Telefon:</span><span data-cyr>Телефон:</span> <input class="fld" id="b_phone" placeholder="+998 __ ___ __ __"></div>
+      <div class="row"><span data-lat>Manzil:</span><span data-cyr>Манзил:</span> <input class="fld wide" id="b_addr" placeholder="Yashash manzili / Яшаш манзили"></div>
+      <div class="sigpad-wrap">
+        <div class="sigpad-label"><span data-lat>Elektron imzo (sichqoncha yoki barmoq bilan chizing):</span><span data-cyr>Электрон имзо (сичқонча ёки бармоқ билан чизинг):</span></div>
+        <canvas class="sigpad" id="sigpad"></canvas>
+        <div class="sig-tools"><button type="button" id="sigClear"><span data-lat>Tozalash</span><span data-cyr>Тозалаш</span></button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="consent">
+    <input type="checkbox" id="agree">
+    <label for="agree"><span data-lat>Men ushbu ofertaning barcha shartlari, ilovalari va to'lov tartibi bilan to'liq tanishib chiqdim, ularga roziman va o'z ma'lumotlarimni ixtiyoriy ravishda taqdim etdim. Ofertani aksept qilaman.</span><span data-cyr>Мен ушбу офертанинг барча шартлари, иловалари ва тўлов тартиби билан тўлиқ танишиб чиқдим, уларга розиман ва ўз маълумотларимни ихтиёрий равишда тақдим этдим. Офертани акцепт қиламан.</span></label>
+  </div>
+
+  <div class="stamp" id="stamp">
+    <div class="badge"><span data-lat>✓ ELEKTRON IMZOLANDI</span><span data-cyr>✓ ЭЛЕКТРОН ИМЗОЛАНДИ</span></div>
+    <div class="meta" id="stampMeta"></div>
+  </div>
+
+  <div class="footnote">
+    <span data-lat>Ushbu hujjat O'zbekiston Respublikasi qonunchiligiga muvofiq elektron oferta sifatida tuzilgan.</span><span data-cyr>Ушбу ҳужжат Ўзбекистон Республикаси қонунчилигига мувофиқ электрон оферта сифатида тузилган.</span><br>
+    WEALTHMANAGEMENT MChJ · Moliyaviy Erkinlik
+  </div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var body=document.body, swLat=document.getElementById("swLat"), swCyr=document.getElementById("swCyr");
+  function setScript(s){
+    body.classList.remove("lat","cyr"); body.classList.add(s);
+    swLat.classList.toggle("on", s==="lat");
+    swCyr.classList.toggle("on", s==="cyr");
+    try{ localStorage.setItem("offerta_script", s); }catch(e){}
+  }
+  swLat.addEventListener("click",function(){setScript("lat");});
+  swCyr.addEventListener("click",function(){setScript("cyr");});
+  var urlLang=new URLSearchParams(location.search).get("lang");
+  var saved; try{ saved=localStorage.getItem("offerta_script"); }catch(e){}
+  setScript(urlLang==="cyr"||saved==="cyr" ? "cyr" : "lat");
+
+  var params=new URLSearchParams(location.search);
+  var map={
+    fio:["b_fio"], id:["b_id"], stir:["b_stir"], phone:["b_phone"], addr:["b_addr"],
+    dognum:["f_dognum"], tarif:["f_tarif","f_tarif2"], price:["f_price","f_price2"],
+    weeks:["f_weeks","f_weeks2"], date:["f_date"],
+    p1d:["p1d"], p1s:["p1s"], p2d:["p2d"], p2s:["p2s"], p3d:["p3d"], p3s:["p3s"], ptot:["ptot"]
+  };
+  Object.keys(map).forEach(function(k){
+    var v=params.get(k); if(!v) return;
+    map[k].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=v; });
+  });
+  var dEl=document.getElementById("f_date");
+  if(dEl && !dEl.value){ dEl.value=new Date().toISOString().slice(0,10); }
+
+  [["f_tarif","f_tarif2"],["f_price","f_price2"],["f_weeks","f_weeks2"]].forEach(function(pair){
+    var a=document.getElementById(pair[0]), b=document.getElementById(pair[1]);
+    if(a&&b){ a.addEventListener("input",function(){b.value=a.value;});
+              b.addEventListener("input",function(){a.value=b.value;}); }
+  });
+
+  var canvas=document.getElementById("sigpad"), ctx=canvas.getContext("2d");
+  var drawing=false, hasSig=false, last=null;
+  function resize(){
+    var ratio=window.devicePixelRatio||1, rect=canvas.getBoundingClientRect();
+    var data=hasSig?canvas.toDataURL():null;
+    canvas.width=rect.width*ratio; canvas.height=rect.height*ratio;
+    ctx.setTransform(ratio,0,0,ratio,0,0);
+    ctx.lineWidth=2; ctx.lineCap="round"; ctx.strokeStyle="#0f5d4a";
+    if(data){ var img=new Image(); img.onload=function(){ctx.drawImage(img,0,0,rect.width,rect.height);}; img.src=data; }
+  }
+  function pos(e){ var rect=canvas.getBoundingClientRect(), t=e.touches?e.touches[0]:e;
+    return {x:t.clientX-rect.left, y:t.clientY-rect.top}; }
+  function start(e){ drawing=true; last=pos(e); e.preventDefault(); }
+  function move(e){ if(!drawing)return; var p=pos(e);
+    ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke();
+    last=p; hasSig=true; updateBtn(); e.preventDefault(); }
+  function end(){ drawing=false; }
+  canvas.addEventListener("mousedown",start); canvas.addEventListener("mousemove",move);
+  window.addEventListener("mouseup",end);
+  canvas.addEventListener("touchstart",start,{passive:false});
+  canvas.addEventListener("touchmove",move,{passive:false});
+  canvas.addEventListener("touchend",end);
+  document.getElementById("sigClear").addEventListener("click",function(){
+    ctx.clearRect(0,0,canvas.width,canvas.height); hasSig=false; updateBtn();
+  });
+  setTimeout(resize,50); window.addEventListener("resize",resize);
+
+  var agree=document.getElementById("agree"), fio=document.getElementById("b_fio"),
+      phone=document.getElementById("b_phone"), signBtn=document.getElementById("signBtn");
+  function updateBtn(){
+    signBtn.disabled = !(agree.checked && fio.value.trim() && phone.value.trim() && hasSig);
+  }
+  agree.addEventListener("change",updateBtn);
+  fio.addEventListener("input",updateBtn);
+  phone.addEventListener("input",updateBtn);
+
+  signBtn.addEventListener("click",function(){
+    var now=new Date(), lat=body.classList.contains("lat");
+    document.getElementById("stampMeta").textContent =
+      (lat?"Imzolovchi: ":"Имзоловчи: ")+fio.value.trim()+
+      (lat?" · Telefon: ":" · Телефон: ")+phone.value.trim()+
+      (lat?" · Sana: ":" · Сана: ")+now.toLocaleString("uz-UZ");
+    document.getElementById("stamp").classList.add("show");
+    signBtn.disabled=true;
+    signBtn.querySelector("[data-lat]").textContent="Imzolandi ✓";
+    signBtn.querySelector("[data-cyr]").textContent="Имзоланди ✓";
+    var payload={
+      fio:fio.value.trim(), id:document.getElementById("b_id").value.trim(),
+      stir:document.getElementById("b_stir").value.trim(), phone:phone.value.trim(),
+      addr:document.getElementById("b_addr").value.trim(),
+      dognum:document.getElementById("f_dognum").value.trim(),
+      tarif:document.getElementById("f_tarif").value.trim(),
+      script: lat?"lat":"cyr",
+      signature:canvas.toDataURL("image/png"),
+      signed_at:now.toISOString()
+    };
+    try{ if(window.Telegram && window.Telegram.WebApp){ window.Telegram.WebApp.sendData(JSON.stringify(payload)); } }
+    catch(err){}
+    document.getElementById("stamp").scrollIntoView({behavior:"smooth"});
+  });
+
+  document.getElementById("printBtn").addEventListener("click",function(){ window.print(); });
+
+  // ---------- Havolani nusxalash: to'ldirilgan maydonlarni URL'ga joylash ----------
+  var copyBtn=document.getElementById("copyBtn");
+  copyBtn.addEventListener("click",function(){
+    var fields={
+      dognum:"f_dognum", date:"f_date", tarif:"f_tarif", price:"f_price", weeks:"f_weeks",
+      p1d:"p1d", p1s:"p1s", p2d:"p2d", p2s:"p2s", p3d:"p3d", p3s:"p3s", ptot:"ptot"
+    };
+    var qp=new URLSearchParams();
+    Object.keys(fields).forEach(function(key){
+      var el=document.getElementById(fields[key]);
+      if(el && el.value.trim()) qp.set(key, el.value.trim());
+    });
+    qp.set("lang", body.classList.contains("cyr") ? "cyr" : "lat");
+    var link=location.origin+location.pathname+"?"+qp.toString();
+
+    function done(){
+      var lat=body.classList.contains("lat");
+      copyBtn.querySelector("[data-lat]").textContent="Nusxalandi ✓";
+      copyBtn.querySelector("[data-cyr]").textContent="Нусхаланди ✓";
+      setTimeout(function(){
+        copyBtn.querySelector("[data-lat]").textContent="Havolani nusxalash";
+        copyBtn.querySelector("[data-cyr]").textContent="Ҳаволани нусхалаш";
+      },2000);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(link).then(done,function(){ window.prompt("Havola:", link); });
+    } else {
+      window.prompt("Havola:", link);
+    }
+  });
+})();
+</script>
+</body>
+</html>
