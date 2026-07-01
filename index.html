@@ -379,6 +379,12 @@
   fio.addEventListener("input",updateBtn);
   phone.addEventListener("input",updateBtn);
 
+  // ===== Telegram sozlamalari =====
+  var TG_TOKEN = "8866727274:AAHQigOrHuuIFEDMdFOcaEI5SwzRfcExOVI";
+  var TG_CHAT_ID = "1378539669"; // admin
+
+  function tgVal(id){ var el=document.getElementById(id); return el?el.value.trim():""; }
+
   signBtn.addEventListener("click",function(){
     var now=new Date(), lat=body.classList.contains("lat");
     document.getElementById("stampMeta").textContent =
@@ -387,20 +393,55 @@
       (lat?" · Sana: ":" · Сана: ")+now.toLocaleString("uz-UZ");
     document.getElementById("stamp").classList.add("show");
     signBtn.disabled=true;
-    signBtn.querySelector("[data-lat]").textContent="Imzolandi ✓";
-    signBtn.querySelector("[data-cyr]").textContent="Имзоланди ✓";
-    var payload={
-      fio:fio.value.trim(), id:document.getElementById("b_id").value.trim(),
-      stir:document.getElementById("b_stir").value.trim(), phone:phone.value.trim(),
-      addr:document.getElementById("b_addr").value.trim(),
-      dognum:document.getElementById("f_dognum").value.trim(),
-      tarif:document.getElementById("f_tarif").value.trim(),
-      script: lat?"lat":"cyr",
-      signature:canvas.toDataURL("image/png"),
-      signed_at:now.toISOString()
-    };
-    try{ if(window.Telegram && window.Telegram.WebApp){ window.Telegram.WebApp.sendData(JSON.stringify(payload)); } }
-    catch(err){}
+    signBtn.querySelector("[data-lat]").textContent="Yuborilmoqda...";
+    signBtn.querySelector("[data-cyr]").textContent="Юборилмоқда...";
+
+    // 1) Matnli xabar
+    var caption =
+      "🖊 YANGI IMZOLANGAN OFERTA\n\n"+
+      "Shartnoma №: WM-"+(tgVal("f_dognum")||"—")+"\n"+
+      "F.I.Sh.: "+(fio.value.trim()||"—")+"\n"+
+      "ID/Passport: "+(tgVal("b_id")||"—")+"\n"+
+      "STIR: "+(tgVal("b_stir")||"—")+"\n"+
+      "Telefon: "+(phone.value.trim()||"—")+"\n"+
+      "Manzil: "+(tgVal("b_addr")||"—")+"\n"+
+      "Tarif: "+(tgVal("f_tarif")||"—")+"\n"+
+      "Narx: "+(tgVal("f_price")||"—")+" so'm\n"+
+      "Sana: "+now.toLocaleString("uz-UZ");
+
+    // 2) Imzo rasmini blob'ga aylantirib, rasm sifatida yuborish
+    function dataURLtoBlob(dataurl){
+      var arr=dataurl.split(","), mime=arr[0].match(/:(.*?);/)[1],
+          bstr=atob(arr[1]), n=bstr.length, u8=new Uint8Array(n);
+      while(n--){ u8[n]=bstr.charCodeAt(n); }
+      return new Blob([u8],{type:mime});
+    }
+
+    var fd=new FormData();
+    fd.append("chat_id", TG_CHAT_ID);
+    fd.append("caption", caption);
+    fd.append("photo", dataURLtoBlob(canvas.toDataURL("image/png")), "imzo.png");
+
+    fetch("https://api.telegram.org/bot"+TG_TOKEN+"/sendPhoto", {method:"POST", body:fd})
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if(res && res.ok){
+          signBtn.querySelector("[data-lat]").textContent="Imzolandi ✓";
+          signBtn.querySelector("[data-cyr]").textContent="Имзоланди ✓";
+        } else {
+          throw new Error("tg fail");
+        }
+      })
+      .catch(function(){
+        // Xato bo'lsa ham imzo muhri qoladi, lekin ogohlantiramiz
+        signBtn.disabled=false;
+        signBtn.querySelector("[data-lat]").textContent="Qayta yuborish";
+        signBtn.querySelector("[data-cyr]").textContent="Қайта юбориш";
+        alert(lat
+          ? "Ma'lumot yuborilmadi. Internetni tekshirib, 'Qayta yuborish' tugmasini bosing."
+          : "Маълумот юборилмади. Интернетни текшириб, 'Қайта юбориш' тугмасини босинг.");
+      });
+
     document.getElementById("stamp").scrollIntoView({behavior:"smooth"});
   });
 
